@@ -15,13 +15,23 @@ namespace FinalProject1.Controllers
 
     public class TeamFavoritesController : ControllerBase
     {
+        private readonly ILogger<TeamFavoritesController> _logger;
         private readonly FinalProject1Context _context;
 
-        public TeamFavoritesController(FinalProject1Context context)
+        public TeamFavoritesController(ILogger<TeamFavoritesController> logger, FinalProject1Context context)
         {
+            _logger = logger;
             _context = context;
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_context.TeamFavorite.ToList());
+        }
+
+
+        /*
         // GET: api/TeamFavorites
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TeamFavorite>>> GetTeamFavorite()
@@ -105,5 +115,6 @@ namespace FinalProject1.Controllers
         {
             return _context.TeamFavorite.Any(e => e.Id == id);
         }
+        */
     }
 }
