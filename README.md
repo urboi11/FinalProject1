@@ -7,7 +7,7 @@ For adding migrations and starting application, run the following commands
 # Migrations
 ## Adding First Migration
 ```bash
-dotnet ef Migrations add InitialCreate
+dotnet ef migrations add InitialCreate
 ```
 ## Updating Database
 ```bash
