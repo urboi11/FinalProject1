@@ -57,7 +57,7 @@ public class BestFriendController : ControllerBase
         }
 
     }
-    [HttpPut("CreateFriend")]
+    [HttpPost("CreateFriend")]
     public void CreateFriend(string firstName, string lastName, string age, string pronouns)
     {
         bestFriend = new BestFriendResponse();
