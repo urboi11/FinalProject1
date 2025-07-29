@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FinalProject1.Models;
+using FinalProject1.Data;
 
 namespace FinalProject1.Controllers
 {

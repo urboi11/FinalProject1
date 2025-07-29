@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using FinalProject1.Models;
 
-namespace FinalProject1.Models;
+namespace FinalProject1.Data;
 
 public class FinalProjectContext : DbContext
 {
