@@ -9,9 +9,9 @@ namespace FinalProject1.Controllers;
     [ApiController]
     public class BreakfastFoodsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly FinalProjectContext _context;
 
-        public BreakfastFoodsController(AppDbContext context)
+        public BreakfastFoodsController(FinalProjectContext context)
         {
             _context = context;
         }

@@ -9,9 +9,9 @@ namespace FinalProject.Controllers;
     [ApiController]
     public class FavoriteMoviesController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly FinalProjectContext _context;
 
-        public FavoriteMoviesController(AppDbContext context)
+        public FavoriteMoviesController(FinalProjectContext context)
         {
             _context = context;
         }

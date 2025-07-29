@@ -9,9 +9,9 @@ namespace FinalProject.Controllers
     [ApiController]
     public class HobbiesController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly FinalProjectContext _context;
 
-        public HobbiesController(AppDbContext context)
+        public HobbiesController(FinalProjectContext context)
         {
             _context = context;
         }
