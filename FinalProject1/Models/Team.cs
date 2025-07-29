@@ -6,7 +6,7 @@ public class Team
 
     public string TeamMember { get; set; }
 
-    public DateTime BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 
     public string CollegeProgram { get; set; }
 

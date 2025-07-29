@@ -1,8 +1,11 @@
+using System.Text.Json.Nodes;
 using FinalProject1.DTO;
 using FinalProject1.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FinalProject1.Controllers;
 
@@ -42,9 +45,8 @@ public class TeamsController : ControllerBase
         }
         else
         {
-            var response = _db.Teams.AsNoTracking()
-                                    .First();
-            return Ok(response);
+            var response = _db.Teams.Where(x => x.Id == Id).ToArray();
+            return new JsonResult(response);
         }
 
     }
@@ -53,16 +55,20 @@ public class TeamsController : ControllerBase
     {
         Team teamMate = new Team();
         teamMate.TeamMember = name;
-        teamMate.BirthDate = birthDate;
+        teamMate.BirthDate = DateOnly.FromDateTime(birthDate);
         teamMate.CollegeProgram = collegeProgram;
         teamMate.Year = year;
         var response = _db.Teams.Add(teamMate);
         _db.SaveChanges();
     }
 
-    // [HttpDelete("DeleteTeamMember")]
+    [HttpDelete("DeleteTeamMember")]
+    public void DeleteTeamMember(int Id) {
+        var response = _db.Teams.Where(x => x.Id == Id);
+        _db.Remove(response);
+    }
 
-    // [HttpPut("UpdateTeamMember")]
+    [HttpPut("UpdateTeamMember")]
 
 
 }
