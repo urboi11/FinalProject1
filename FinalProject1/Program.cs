@@ -3,10 +3,6 @@ using FinalProject1.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<FinalProject1Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("FinalProject1Context") ?? throw new InvalidOperationException("Connection string 'FinalProject1Context' not found.")));
-
-// Add services to the container.
 
 if (!File.Exists("./FinalProject.sqlite"))
 {
@@ -16,8 +12,11 @@ if (!File.Exists("./FinalProject.sqlite"))
 
 var connection = builder.Configuration.GetConnectionString("SQLite_CONNECTIONSTRING");
 
+// Add services to the container.
+
 builder.Services.AddControllers();
-builder.Services.AddDbContext<FinalProjectContext>(opt => opt.UseSqlite(connection));
+builder.Services.AddDbContext<FinalProjectContext>(options =>
+    options.UseSqlite("SQLite_CONNECTIONSTRING" ?? throw new InvalidOperationException("Connection string 'DbContext' not found.")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
