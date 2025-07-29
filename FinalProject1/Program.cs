@@ -1,6 +1,7 @@
 using System.Data.SQLite;
 using FinalProject1.Models;
 using Microsoft.EntityFrameworkCore;
+using FinalProject1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
