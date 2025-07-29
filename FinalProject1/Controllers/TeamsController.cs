@@ -16,8 +16,10 @@ namespace FinalProject1.Controllers;
 public class TeamsController : ControllerBase
 {
     private readonly FinalProjectContext _db;
+    private readonly ILogger<Team> _logger;
 
-    public TeamsController(FinalProjectContext db) {
+    public TeamsController(ILogger<Team> logger, FinalProjectContext db)
+    {
         _logger = logger;
         _db = db;
     }
