@@ -13,8 +13,8 @@ public class FinalProjectContext : DbContext
     public DbSet<Team> Teams { get; set; } = null!;
     public DbSet<BestFriend> BestFriends { get; set; } = null!;
     public DbSet<TeamFavorite> TeamFavorite { get; set; } = default!;
-    public DbSet<BreakfastFood> BreakfastFoods { get; set; } = null!;
-    public DbSet<FavoriteMovie> FavoriteMovies { get; set; } = null!;
+    public DbSet<BreakfastFood> BreakfastFoods => Set<BreakfastFood>();
+    public DbSet<FavoriteMovie> FavoriteMovies => Set<FavoriteMovie>();
 
     public DbSet<Hobby> Hobbies => Set<Hobby>();
 }
