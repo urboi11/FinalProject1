@@ -9,12 +9,17 @@ For adding migrations and starting application, run the following commands
 ```bash
 dotnet ef migrations add InitialCreate
 ```
+## Run project to create Sqlite Database for the first time
+```bash
+dotnet run
+```
+
 ## Updating Database
 ```bash
 dotnet ef database update
 ```
 
-## Run the Project
+## Run the Project to try out API!
 
 ```bash
 dotnet run
