@@ -45,17 +45,21 @@ public class TeamsController : ControllerBase
         }
         else
         {
-            var response = _db.Teams.Where(x => x.Id == Id).ToArray();
+            var response = _db.Teams.Where(x => x.Id == Id).DefaultIfEmpty().ToArray();
+            if (response[0] == null)
+            {
+                return NotFound(Id + " was not found.");
+            }
             return new JsonResult(response);
         }
 
     }
     [HttpPut("CreateTeamMember")]
-    public void CreateTeamMember(string name, DateTime birthDate, string collegeProgram, string year)
+    public void CreateTeamMember(string name, DateOnly birthDate, string collegeProgram, string year)
     {
         Team teamMate = new Team();
         teamMate.TeamMember = name;
-        teamMate.BirthDate = DateOnly.FromDateTime(birthDate);
+        teamMate.BirthDate = birthDate;
         teamMate.CollegeProgram = collegeProgram;
         teamMate.Year = year;
         var response = _db.Teams.Add(teamMate);
@@ -63,12 +67,29 @@ public class TeamsController : ControllerBase
     }
 
     [HttpDelete("DeleteTeamMember")]
-    public void DeleteTeamMember(int Id) {
-        var response = _db.Teams.Where(x => x.Id == Id);
-        _db.Remove(response);
+    public void DeleteTeamMember(int Id)
+    {
+        // var response = _db.Teams.Where(x => x.Id == Id);
+        Team response = _db.Teams.Find(Id);
+        _db.Teams.Remove(response);
+        _db.SaveChanges();
     }
 
     [HttpPut("UpdateTeamMember")]
-
-
+    public ActionResult UpdateTeamMember(int Id, string name, DateOnly birthDate, string collegeProgram, string year)
+    {
+        Team response = _db.Teams.Find(Id);
+        if (response == null)
+        {
+            return NotFound("Not Found.");
+        }
+        response.TeamMember = name;
+        response.BirthDate = birthDate;
+        response.CollegeProgram = collegeProgram;
+        response.Year = year;
+        _db.Update(response);
+        _db.SaveChanges();
+        return Ok();
+    }
+    
 }
