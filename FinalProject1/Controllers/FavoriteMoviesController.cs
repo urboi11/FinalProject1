@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using FinalProject1.Data;      // Correct namespace for AppDbContext
 using FinalProject1.Models;    // Correct namespace for FavoriteMovie
 
-namespace FinalProject.Controllers
-{
+namespace FinalProject.Controllers;
+
     [Route("api/[controller]")]
     [ApiController]
     public class FavoriteMoviesController : ControllerBase
@@ -88,4 +88,3 @@ namespace FinalProject.Controllers
             return NoContent();
         }
     }
-}
