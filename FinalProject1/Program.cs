@@ -5,26 +5,26 @@ using FinalProject1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Create DB file if it doesn't exist
 if (!File.Exists("./FinalProject.sqlite"))
 {
     SQLiteConnection.CreateFile("FinalProject.sqlite");
 }
-    
 
+// ✅ Connection string from appsettings.json
 var connection = builder.Configuration.GetConnectionString("SQLite_CONNECTIONSTRING");
 
-// Add services to the container.
-
+// ✅ Register services
 builder.Services.AddControllers();
 builder.Services.AddDbContext<FinalProjectContext>(options =>
-    options.UseSqlite(connection ?? throw new InvalidOperationException("Connection string 'DbContext' not found.")));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    options.UseSqlite(connection ?? throw new InvalidOperationException("Connection string 'SQLite_CONNECTIONSTRING' not found.")));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ✅ Enable Swagger in Development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -32,9 +32,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
