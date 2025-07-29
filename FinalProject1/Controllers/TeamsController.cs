@@ -18,6 +18,7 @@ public class TeamsController : ControllerBase
     private readonly FinalProjectContext _db;
 
     public TeamsController(FinalProjectContext db) {
+        _logger = logger;
         _db = db;
     }
 

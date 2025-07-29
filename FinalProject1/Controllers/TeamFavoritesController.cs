@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FinalProject1.Data;
 using FinalProject1.Models;
 
 namespace FinalProject1.Controllers
@@ -16,18 +15,18 @@ namespace FinalProject1.Controllers
     public class TeamFavoritesController : ControllerBase
     {
         private readonly ILogger<TeamFavoritesController> _logger;
-        private readonly FinalProject1Context _context;
+        private readonly FinalProjectContext _db;
 
-        public TeamFavoritesController(ILogger<TeamFavoritesController> logger, FinalProject1Context context)
+        public TeamFavoritesController(ILogger<TeamFavoritesController> logger, FinalProjectContext db)
         {
             _logger = logger;
-            _context = context;
+            _db = db;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.TeamFavorite.ToList());
+            return Ok(_db.TeamFavorite.ToList());
         }
 
 

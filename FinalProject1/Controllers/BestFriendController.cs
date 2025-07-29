@@ -12,11 +12,14 @@ namespace FinalProject1.Controllers;
 public class BestFriendController : ControllerBase
 {
     private readonly FinalProjectContext _db;
+    
+    private readonly ILogger<BestFriendController> _logger;
 
     private BestFriendResponse bestFriend;
 
-    public BestFriendController(FinalProjectContext db)
+    public BestFriendController(ILogger<BestFriendController> logger, FinalProjectContext db)
     {
+        _logger = logger;
         _db = db;
     }
 

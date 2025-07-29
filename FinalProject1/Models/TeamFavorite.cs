@@ -1,4 +1,7 @@
-﻿namespace FinalProject1.Models
+﻿
+
+
+namespace FinalProject1.Models
 {
     public class TeamFavorite
     {
