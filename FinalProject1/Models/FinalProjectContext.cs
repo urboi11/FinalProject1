@@ -10,5 +10,7 @@ public class FinalProjectContext : DbContext
     }
 
     public DbSet<Team> Teams { get; set; } = null!;
+
+    public DbSet<BestFriend> BestFriends { get; set; } = null!;
     
 }

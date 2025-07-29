@@ -57,7 +57,7 @@ public class TeamsController : ControllerBase
     [HttpPut("CreateTeamMember")]
     public void CreateTeamMember(string name, DateOnly birthDate, string collegeProgram, string year)
     {
-        Team teamMate = new Team();
+        TeamsResponse teamMate = new TeamsResponse();
         teamMate.TeamMember = name;
         teamMate.BirthDate = birthDate;
         teamMate.CollegeProgram = collegeProgram;
