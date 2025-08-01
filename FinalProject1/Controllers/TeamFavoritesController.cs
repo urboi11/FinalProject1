@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using FinalProject1.Data;
+﻿using FinalProject1.DTO;
 using FinalProject1.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject1.Controllers
 {
@@ -16,105 +10,86 @@ namespace FinalProject1.Controllers
     public class TeamFavoritesController : ControllerBase
     {
         private readonly ILogger<TeamFavoritesController> _logger;
-        private readonly FinalProject1Context _context;
+        private readonly FinalProjectContext _db;
+        private TeamFavoriteResponse teamFavorite;
 
-        public TeamFavoritesController(ILogger<TeamFavoritesController> logger, FinalProject1Context context)
+        public TeamFavoritesController(ILogger<TeamFavoritesController> logger, FinalProjectContext db)
         {
             _logger = logger;
-            _context = context;
+            _db = db;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int? Id)
         {
-            return Ok(_context.TeamFavorite.ToList());
-        }
-
-
-        /*
-        // GET: api/TeamFavorites
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TeamFavorite>>> GetTeamFavorite()
-        {
-            return await _context.TeamFavorite.ToListAsync();
-        }
-
-        // GET: api/TeamFavorites/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TeamFavorite>> GetTeamFavorite(int? id)
-        {
-            var teamFavorite = await _context.TeamFavorite.FindAsync(id);
-
-            if (teamFavorite == null)
+            if (Id == null || Id == 0)
             {
-                return NotFound();
-            }
-
-            return teamFavorite;
-        }
-
-        // PUT: api/TeamFavorites/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTeamFavorite(int? id, TeamFavorite teamFavorite)
-        {
-            if (id != teamFavorite.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(teamFavorite).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TeamFavoriteExists(id))
+                teamFavorite = new TeamFavoriteResponse();
+                var response = _db.TeamFavorite
+                    .OrderByDescending(x => x.Id)
+                    .Take(5);
+                foreach (var item in response)
                 {
-                    return NotFound();
+                    teamFavorite.Id = item.Id;
+                    teamFavorite.Name = item.Name;
+                    teamFavorite.FavColor = item.FavColor;
+                    teamFavorite.FavAnimal = item.FavAnimal;
+                    teamFavorite.FavNumber = item.FavNumber;
+                    teamFavorite.FavSeason = item.FavSeason;
                 }
-                else
-                {
-                    throw;
-                }
+                return Ok(new JsonResult(teamFavorite));
             }
-
-            return NoContent();
+            else
+            {
+                var result = _db.TeamFavorite.Where(x => x.Id == Id).ToArray();
+                return Ok(new JsonResult(result));
+            }
         }
 
-        // POST: api/TeamFavorites
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TeamFavorite>> PostTeamFavorite(TeamFavorite teamFavorite)
+        public IActionResult Create(TeamFavorite teamFavorite)
         {
-            _context.TeamFavorite.Add(teamFavorite);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTeamFavorite", new { id = teamFavorite.Id }, teamFavorite);
-        }
-
-        // DELETE: api/TeamFavorites/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTeamFavorite(int? id)
-        {
-            var teamFavorite = await _context.TeamFavorite.FindAsync(id);
             if (teamFavorite == null)
             {
-                return NotFound();
+                return BadRequest("TeamFavorite cannot be null.");
             }
-
-            _context.TeamFavorite.Remove(teamFavorite);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            _db.TeamFavorite.Add(teamFavorite);
+            _db.SaveChanges();
+            return CreatedAtAction(nameof(Get), new { id = teamFavorite.Id }, teamFavorite);
         }
 
-        private bool TeamFavoriteExists(int? id)
+        [HttpPut]
+        public IActionResult Update(TeamFavorite teamFavorite)
         {
-            return _context.TeamFavorite.Any(e => e.Id == id);
+            var oldTeamFavorite = _db.TeamFavorite.Find(teamFavorite.Id);
+            if (oldTeamFavorite == null)
+            {
+                return NotFound("TeamFavorite not found.");
+            }
+            oldTeamFavorite.Name = teamFavorite.Name;
+            oldTeamFavorite.FavColor = teamFavorite.FavColor;
+            oldTeamFavorite.FavAnimal = teamFavorite.FavAnimal;
+            oldTeamFavorite.FavNumber = teamFavorite.FavNumber;
+            oldTeamFavorite.FavSeason = teamFavorite.FavSeason;
+            _db.Update(oldTeamFavorite);
+            _db.SaveChanges();
+            return Ok(new JsonResult(teamFavorite));
         }
-        */
+
+        [HttpDelete]
+        public IActionResult Delete(int? Id)
+        {
+            var teamFavorite = _db.TeamFavorite.Find(Id);
+            if (teamFavorite == null)
+            {
+                return NotFound("TeamFavorite not found.");
+            }
+            _db.TeamFavorite.Remove(teamFavorite);
+            _db.SaveChanges();
+            return Ok("TeamFavorite deleted successfully.");
+        }
+
+
+
     }
 }
