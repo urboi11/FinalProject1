@@ -1,7 +1,7 @@
 using FinalProject1.DTO;
 using FinalProject1.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using FinalProject1.Data;
 
 namespace FinalProject1.Controllers;
 
@@ -12,7 +12,7 @@ namespace FinalProject1.Controllers;
 public class BestFriendController : ControllerBase
 {
     private readonly FinalProjectContext _db;
-    
+
     private readonly ILogger<BestFriendController> _logger;
 
     private BestFriendResponse bestFriend;
@@ -25,7 +25,8 @@ public class BestFriendController : ControllerBase
 
 
     [HttpGet("GetFriend")]
-    public ActionResult GetFriend(int? Id) {
+    public ActionResult GetFriend(int? Id)
+    {
 
         if (Id == null || Id == 0)
         {
@@ -93,5 +94,5 @@ public class BestFriendController : ControllerBase
         _db.SaveChanges();
         return Ok();
     }
-    
+
 }

@@ -4,6 +4,7 @@ using FinalProject1.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using FinalProject1.Data;
 
 #nullable disable
 

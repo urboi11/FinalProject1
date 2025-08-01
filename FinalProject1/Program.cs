@@ -1,6 +1,7 @@
 using System.Data.SQLite;
 using FinalProject1.Models;
 using Microsoft.EntityFrameworkCore;
+using FinalProject1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,6 @@ if (!File.Exists("./FinalProject.sqlite"))
     SQLiteConnection.CreateFile("FinalProject.sqlite");
 }
     
-
 var connection = builder.Configuration.GetConnectionString("SQLite_CONNECTIONSTRING");
 
 // Add services to the container.
