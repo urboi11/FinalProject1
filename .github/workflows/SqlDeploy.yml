@@ -15,16 +15,18 @@ jobs:
         - name: cd Into Project Directory
           run: cd ./FinalProject1
         #   continue-on-error: true
-        # - name: Build Sql Script
-        #   run: |
-        #     dotnet tool install --global dotnet-ef
-        #     dotnet tool restore
-        #     dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
-        # - name: Upload Artifact
-        #   uses: actions/upload-artifact@v4
-        #   with:
-        #     name: .net-script
-        #     path: ./SqlScripts/BaseSql.sql
+        
+        - name: Build Sql Script
+          run: |
+            dotnet tool install --global dotnet-ef
+            dotnet tool restore
+            dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
+        
+        - name: Upload Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: .net-script
+            path: ./SqlScripts/BaseSql.sql
 
 
 
