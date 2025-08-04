@@ -27,9 +27,21 @@ public class TeamsController : ControllerBase
     [HttpGet("GetTeamInformation")]
     public ActionResult GetTeamInformation()
     {
-        var result = _db.Teams.ToList();
+        try
+        {
+            var result = _db.Teams.ToList();
 
-        return Ok(result);
+            // if (result.Equals(null))
+            // {
+            //     return status
+            // }
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e);
+        }
+        return Ok();
     }
     [HttpGet("GetTeamsInformationById")]
     public ActionResult GetTeamMembers(int? Id) {
