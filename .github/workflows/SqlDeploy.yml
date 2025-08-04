@@ -19,7 +19,6 @@ jobs:
           run: |
             dotnet tool install --global dotnet-ef
             cd ./FinalProject1/
-            dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
             dotnet build
 
         - name: Upload Artifact
