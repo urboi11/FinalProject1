@@ -9,14 +9,13 @@ if (!File.Exists("./FinalProject.sqlite"))
 {
     SQLiteConnection.CreateFile("FinalProject.sqlite");
 }
-    
-var connection = builder.Configuration.GetConnectionString("SQLite_CONNECTIONSTRING");
+
+var connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTION_STRING");
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<FinalProjectContext>(options =>
-    options.UseSqlite(connection ?? throw new InvalidOperationException("Connection string 'DbContext' not found.")));
+builder.Services.AddDbContext<FinalProjectContext>(options => options.UseSqlServer(connection ?? throw new InvalidOperationException("Connection string for Azure SQL Server not found.")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
