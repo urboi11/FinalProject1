@@ -1,7 +1,8 @@
 on:
   push:
     branches:
-        - feature/AzureSQLIntegration 
+        - feature/AzureSQLIntegration
+  workflow_dispatch: 
 jobs:
     build-sql-scripts:
         runs-on: ubuntu-latest
