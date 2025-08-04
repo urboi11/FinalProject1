@@ -19,6 +19,8 @@ jobs:
             dotnet tool install --global dotnet-ef
             cd ./FinalProject1/
             dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
+            echo "Checking Working Directory..."
+            ls
         
         - name: Upload Artifact
           uses: actions/upload-artifact@v4
