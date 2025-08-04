@@ -25,16 +25,31 @@ public class TeamsController : ControllerBase
         _db = db;
     }
     [HttpGet("GetTeamInformation")]
+            //     if ((int)response.StatusCode == 404)
+            // {
+            //     return NotFound();
+            // }
+            // else if ((int)response.StatusCode == 401)
+            // {
+            //     return Unauthorized();
+            // }
+            // else if ((int)response.StatusCode == 403)
+            // {
+            //     return Forbid();
+            // }
+            // else if ((int)response.StatusCode == 500)
+            // {
+            //     return StatusCode(500);
+            // }
     public ActionResult GetTeamInformation()
     {
         try
         {
             var result = _db.Teams.ToList();
-
-            // if (result.Equals(null))
-            // {
-            //     return status
-            // }
+            if (result.Equals(null))
+            {
+                return NotFound();
+            }
             return Ok(result);
         }
         catch (Exception e)
