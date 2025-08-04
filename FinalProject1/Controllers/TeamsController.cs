@@ -1,8 +1,12 @@
+using System.Text.Json.Nodes;
 using FinalProject1.DTO;
 using FinalProject1.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using FinalProject1.Data;
 
 namespace FinalProject1.Controllers;
 
@@ -13,8 +17,11 @@ namespace FinalProject1.Controllers;
 public class TeamsController : ControllerBase
 {
     private readonly FinalProjectContext _db;
+    private readonly ILogger<Team> _logger;
 
-    public TeamsController(FinalProjectContext db) {
+    public TeamsController(ILogger<Team> logger, FinalProjectContext db)
+    {
+        _logger = logger;
         _db = db;
     }
     [HttpGet("GetTeamInformation")]
@@ -48,13 +55,16 @@ public class TeamsController : ControllerBase
         }
         else
         {
-            var response = _db.Teams.AsNoTracking()
-                                    .First();
-            return Ok(response);
+            var response = _db.Teams.Where(x => x.Id == Id).DefaultIfEmpty().ToArray();
+            if (response[0] == null)
+            {
+                return NotFound(Id + " was not found.");
+            }
+            return new JsonResult(response);
         }
 
     }
-    [HttpPut("CreateTeamMember")]
+    [HttpPost("CreateTeamMember")]
     public void CreateTeamMember(string name, DateOnly birthDate, string collegeProgram, string year)
     {
         Team teamMate = new Team();
@@ -66,9 +76,30 @@ public class TeamsController : ControllerBase
         _db.SaveChanges();
     }
 
-    // [HttpDelete("DeleteTeamMember")]
+    [HttpDelete("DeleteTeamMember")]
+    public void DeleteTeamMember(int Id)
+    {
+        // var response = _db.Teams.Where(x => x.Id == Id);
+        Team response = _db.Teams.Find(Id);
+        _db.Teams.Remove(response);
+        _db.SaveChanges();
+    }
 
-    // [HttpPut("UpdateTeamMember")]
-
-
+    [HttpPut("UpdateTeamMember")]
+    public ActionResult UpdateTeamMember(int Id, string name, DateOnly birthDate, string collegeProgram, string year)
+    {
+        Team response = _db.Teams.Find(Id);
+        if (response == null)
+        {
+            return NotFound("Not Found.");
+        }
+        response.TeamMember = name;
+        response.BirthDate = birthDate;
+        response.CollegeProgram = collegeProgram;
+        response.Year = year;
+        _db.Update(response);
+        _db.SaveChanges();
+        return Ok();
+    }
+    
 }
