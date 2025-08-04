@@ -17,8 +17,14 @@ public class TeamsController : ControllerBase
     public TeamsController(FinalProjectContext db) {
         _db = db;
     }
+    [HttpGet("GetTeamInformation")]
+    public ActionResult GetTeamInformation()
+    {
+        var result = _db.Teams.ToList();
 
-    [HttpGet("GetTeamsInformation")]
+        return Ok(result);
+    }
+    [HttpGet("GetTeamsInformationById")]
     public ActionResult GetTeamMembers(int? Id) {
 
         if (Id == null || Id == 0)
@@ -49,7 +55,7 @@ public class TeamsController : ControllerBase
 
     }
     [HttpPut("CreateTeamMember")]
-    public void CreateTeamMember(string name, DateTime birthDate, string collegeProgram, string year)
+    public void CreateTeamMember(string name, DateOnly birthDate, string collegeProgram, string year)
     {
         Team teamMate = new Team();
         teamMate.TeamMember = name;
