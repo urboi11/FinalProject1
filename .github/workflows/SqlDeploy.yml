@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-        - feature/ErrorTesting
+        - master
   workflow_dispatch:
 
 jobs:
