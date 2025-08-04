@@ -34,5 +34,5 @@ Once merged, Two Github Action Pipelines will run and do the following <br>
 
 ### Viewing the finished product
 To view changes made to this project, you can by viewing the following URL.
-[Web API](https://contemporarywebapi-agceb0ebf4ebe0c5.canadacentral-01.azurewebsites.net)
+[Web API](https://contemporarywebapi-agceb0ebf4ebe0c5.canadacentral-01.azurewebsites.net/swagger/index.html)
 Please reach out to ask any questions, thanks again for viewing/contributing!
