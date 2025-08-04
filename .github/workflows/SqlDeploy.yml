@@ -2,7 +2,7 @@ on:
   push:
     branches:
         - feature/AzureSQLIntegration
-  workflow_dispatch: 
+  workflow_dispatch:
 jobs:
     build-sql-scripts:
         runs-on: ubuntu-latest
@@ -43,9 +43,8 @@ jobs:
         - name: Directory Listing
           run: ls -la
 
-        # - uses: actions/checkout@v3
-        # - uses: azure/sql-action@v2.3
-        #   with:
-        #     connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-        #     path: './SqlScripts/BaseSql.sql'
+        - uses: azure/sql-action@v2.3
+          with:
+            connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+            path: BaseSql.sql
 
