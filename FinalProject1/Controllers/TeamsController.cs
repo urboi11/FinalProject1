@@ -24,8 +24,14 @@ public class TeamsController : ControllerBase
         _logger = logger;
         _db = db;
     }
+    [HttpGet("GetTeamInformation")]
+    public ActionResult GetTeamInformation()
+    {
+        var result = _db.Teams.ToList();
 
-    [HttpGet("GetTeamsInformation")]
+        return Ok(result);
+    }
+    [HttpGet("GetTeamsInformationById")]
     public ActionResult GetTeamMembers(int? Id) {
 
         if (Id == null || Id == 0)

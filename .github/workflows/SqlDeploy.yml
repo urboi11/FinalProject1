@@ -1,0 +1,48 @@
+on:
+  push:
+    branches:
+        - main
+  workflow_dispatch:
+
+jobs:
+    build-sql-scripts:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+
+        - uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: '8'
+        
+        
+        - name: Build Sql Script
+          run: |
+            dotnet tool install --global dotnet-ef
+            cd ./FinalProject1/
+            dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
+            echo "Checking Working Directory..."
+
+        - name: Upload Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: .net-script
+            path: ./FinalProject1/SqlScripts/BaseSql.sql
+
+
+
+    deploy-sql-scripts:
+        needs: build-sql-scripts
+        runs-on: ubuntu-latest
+        steps:
+
+        - name: Download Artifact
+          uses: actions/download-artifact@v4
+          with: 
+            name: .net-script
+    
+        - uses: azure/sql-action@v2.3
+          with:
+            skip-firewall-check: true
+            connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+            path: BaseSql.sql
+
