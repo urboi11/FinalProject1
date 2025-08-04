@@ -20,7 +20,7 @@ jobs:
             cd ./FinalProject1/
             dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
             echo "Checking Working Directory..."
-            ls
+            ls ./SqlScripts/
         
         - name: Upload Artifact
           uses: actions/upload-artifact@v4
