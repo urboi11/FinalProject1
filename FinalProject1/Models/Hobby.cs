@@ -1,6 +1,6 @@
 public class Hobby
 {
-    public int Id { get; set; }
+    public Int64 Id { get; set; }
     public string? Name { get; set; }
     public int FrequencyPerWeek { get; set; }
     public bool Indoor { get; set; }
