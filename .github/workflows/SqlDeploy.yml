@@ -21,6 +21,9 @@ jobs:
             dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
             echo "Checking Working Directory..."
             cd ./SqlScripts/
+            
+        - name: List Current Contents
+          run: ls -la
 
         - name: Upload Artifact
           uses: actions/upload-artifact@v4
