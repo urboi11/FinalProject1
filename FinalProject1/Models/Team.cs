@@ -2,7 +2,7 @@ namespace FinalProject1.Models;
 
 public class Team
 {
-    public int? Id { get; set; }
+    public Int64 Id { get; set; }
 
     public string? TeamMember { get; set; }
 
