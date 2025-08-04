@@ -1,8 +1,9 @@
 on:
   push:
     branches:
-        - feature/AzureSQLIntegration
+        - main
   workflow_dispatch:
+
 jobs:
     build-sql-scripts:
         runs-on: ubuntu-latest
@@ -13,7 +14,6 @@ jobs:
           with:
             dotnet-version: '8'
         
-        #   continue-on-error: true
         
         - name: Build Sql Script
           run: |
@@ -39,12 +39,10 @@ jobs:
           uses: actions/download-artifact@v4
           with: 
             name: .net-script
-        
-        - name: Directory Listing
-          run: ls -la
-
+    
         - uses: azure/sql-action@v2.3
           with:
+            skip-firewall-check: true
             connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
             path: BaseSql.sql
 
