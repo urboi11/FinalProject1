@@ -46,61 +46,62 @@ namespace FinalProject1.Migrations
                     b.Property<string>("Year")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.18");
+                    modelBuilder.HasAnnotation("ProductVersion", "8.0.18");
 
-            modelBuilder.Entity("FinalProject1.Models.BestFriend", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    modelBuilder.Entity("FinalProject1.Models.BestFriend", b =>
+                        {
+                            b.Property<int?>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
 
-                    b.Property<string>("age")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                            b.Property<string>("age")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
 
-                    b.Property<string>("firstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                            b.Property<string>("firstName")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
 
-                    b.Property<string>("lastName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                            b.Property<string>("lastName")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
 
-                    b.Property<string>("pronouns")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                            b.Property<string>("pronouns")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                            b.HasKey("Id");
 
-                    b.ToTable("BestFriends");
-                });
+                            b.ToTable("BestFriends");
+                        });
 
-            modelBuilder.Entity("FinalProject1.Models.TeamFavorite", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    modelBuilder.Entity("FinalProject1.Models.TeamFavorite", b =>
+                        {
+                            b.Property<int?>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
 
-                    b.Property<string>("FavAnimal")
-                        .HasColumnType("TEXT");
+                            b.Property<string>("FavAnimal")
+                                .HasColumnType("TEXT");
 
-                    b.Property<string>("FavColor")
-                        .HasColumnType("TEXT");
+                            b.Property<string>("FavColor")
+                                .HasColumnType("TEXT");
 
-                    b.Property<int?>("FavNumber")
-                        .HasColumnType("INTEGER");
+                            b.Property<int?>("FavNumber")
+                                .HasColumnType("INTEGER");
 
-                    b.Property<string>("FavSeason")
-                        .HasColumnType("TEXT");
+                            b.Property<string>("FavSeason")
+                                .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                            b.Property<string>("Name")
+                                .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                            b.HasKey("Id");
 
-                    b.ToTable("TeamFavorite");
-                });
+                            b.ToTable("TeamFavorite");
+                        });
 #pragma warning restore 612, 618
+                });
         }
     }
 }
