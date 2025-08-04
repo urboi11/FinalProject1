@@ -13,14 +13,25 @@ jobs:
             dotnet-version: '8'
         
         - name: Build Sql Script
-          run: dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
-        
-    deploy-sql-scripts:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v3
-        - uses: azure/sql-action@v2.3
+          run: |
+            dotnet tool install --global dotnet-ef
+            dotnet tool restore
+            dotnet ef migrations script --idempotent -o ./SqlScripts/BaseSql.sql
+        - name: Upload Artifact
+          uses: actions/upload-artifact@v4
           with:
-            connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-            path: './SqlScripts/BaseSql.sql'
+            name: .net-script
+            path: ./SqlScripts/BaseSql.sql
+
+
+
+    # deploy-sql-scripts:
+    #     needs: build-sql-scripts
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #     - uses: actions/checkout@v3
+    #     - uses: azure/sql-action@v2.3
+    #       with:
+    #         connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+    #         path: './SqlScripts/BaseSql.sql'
 
