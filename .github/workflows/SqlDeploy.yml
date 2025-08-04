@@ -12,8 +12,9 @@ jobs:
           with:
             dotnet-version: '8'
         
-        - name: Check Listing of Directory
-          run: ls -la
+        - name: cd Into Project Directory
+          run: cd ./FinalProject1
+        #   continue-on-error: true
         # - name: Build Sql Script
         #   run: |
         #     dotnet tool install --global dotnet-ef
