@@ -14,7 +14,7 @@ namespace FinalProject1.Migrations
                 name: "BestFriends",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     firstName = table.Column<string>(type: "TEXT", nullable: false),
                     lastName = table.Column<string>(type: "TEXT", nullable: false),
