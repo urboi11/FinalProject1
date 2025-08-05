@@ -24,65 +24,20 @@ public class TeamsController : ControllerBase
         _logger = logger;
         _db = db;
     }
-    [HttpGet("GetTeamInformation")]
-            //     if ((int)response.StatusCode == 404)
-            // {
-            //     return NotFound();
-            // }
-            // else if ((int)response.StatusCode == 401)
-            // {
-            //     return Unauthorized();
-            // }
-            // else if ((int)response.StatusCode == 403)
-            // {
-            //     return Forbid();
-            // }
-            // else if ((int)response.StatusCode == 500)
-            // {
-            //     return StatusCode(500);
-            // }
-    public ActionResult GetTeamInformation()
-    {
-        try
-        {
-            var result = _db.Teams.ToList();
-            if (result.Equals(null))
-            {
-                return NotFound();
-            }
-            return Ok(result);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error: " + e);
-        }
-        return Ok();
-    }
-    [HttpGet("GetTeamsInformationById")]
+    [HttpGet("GetTeamsMembers")]
     public ActionResult GetTeamMembers(int? Id) {
 
         if (Id == null || Id == 0)
         {
-            TeamsResponse team = new TeamsResponse();
+            // TeamsResponse team = new TeamsResponse();
 
-            var response = _db.Teams.AsNoTracking()
-                            .OrderByDescending(x => x.Id)
-                            .Take(5);
+            var response = _db.Teams.Take(5).ToList();
 
-            foreach (var item in response)
-            {
-                team.Id = item.Id;
-                team.TeamMember = item.TeamMember;
-                team.BirthDate = item.BirthDate;
-                team.CollegeProgram = item.CollegeProgram;
-                team.Year = item.Year;
-            }
-
-            return Ok(team);
+            return Ok(response);
         }
         else
         {
-            var response = _db.Teams.Where(x => x.Id == Id).DefaultIfEmpty().ToArray();
+            var response = _db.Teams.Where(x => x.Id == Id).DefaultIfEmpty().ToList();
             if (response[0] == null)
             {
                 return NotFound(Id + " was not found.");
@@ -92,41 +47,36 @@ public class TeamsController : ControllerBase
 
     }
     [HttpPost("CreateTeamMember")]
-    public void CreateTeamMember(string name, DateOnly birthDate, string collegeProgram, string year)
+    public async Task<ActionResult<Team>> CreateTeamMember([FromQuery] Team team)
     {
-        Team teamMate = new Team();
-        teamMate.TeamMember = name;
-        teamMate.BirthDate = birthDate;
-        teamMate.CollegeProgram = collegeProgram;
-        teamMate.Year = year;
-        var response = _db.Teams.Add(teamMate);
-        _db.SaveChanges();
+        _db.Teams.Add(team);
+        await _db.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetTeamMembers), new { id = team.Id }, team);
     }
 
     [HttpDelete("DeleteTeamMember")]
-    public void DeleteTeamMember(int Id)
+    public void DeleteTeamMember(Int64 Id)
     {
-        // var response = _db.Teams.Where(x => x.Id == Id);
         Team response = _db.Teams.Find(Id);
         _db.Teams.Remove(response);
         _db.SaveChanges();
     }
 
     [HttpPut("UpdateTeamMember")]
-    public ActionResult UpdateTeamMember(int Id, string name, DateOnly birthDate, string collegeProgram, string year)
+    public async Task<ActionResult<Team>> UpdateTeamMember([FromQuery] Team team)
     {
-        Team response = _db.Teams.Find(Id);
-        if (response == null)
+        try
         {
-            return NotFound("Not Found.");
+            _db.Teams.Update(team);
+            _db.SaveChanges();
+            return Ok();
         }
-        response.TeamMember = name;
-        response.BirthDate = birthDate;
-        response.CollegeProgram = collegeProgram;
-        response.Year = year;
-        _db.Update(response);
-        _db.SaveChanges();
-        return Ok();
+        catch (Exception e)
+        {
+            _logger.LogError("Error: " + e);
+            return StatusCode(500);
+        }
     }
     
 }

@@ -18,7 +18,7 @@ namespace FinalProject.Controllers;
 
         // GET: api/FavoriteMovies?id=2
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FavoriteMovie>>> GetFavoriteMovies([FromQuery] int? id)
+        public async Task<ActionResult<IEnumerable<FavoriteMovie>>> GetFavoriteMovies([FromQuery] Int64 id)
         {
             if (id == null || id == 0)
             {
@@ -74,7 +74,7 @@ namespace FinalProject.Controllers;
 
         // DELETE: api/FavoriteMovies/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFavoriteMovie(int id)
+        public async Task<IActionResult> DeleteFavoriteMovie(Int64 id)
         {
             var movie = await _context.FavoriteMovies.FindAsync(id);
             if (movie == null)

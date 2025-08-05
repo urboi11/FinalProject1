@@ -16,9 +16,9 @@ namespace FinalProject1.Controllers;
             _context = context;
         }
 
-        // GET: api/BreakfastFoods?id=2
+        // GET: api/GetBreakfastFoods?id=2
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BreakfastFood>>> GetBreakfastFoods([FromQuery] int? id)
+        public async Task<ActionResult<IEnumerable<BreakfastFood>>> GetBreakfastFoods(Int64 id)
         {
             if (id == null || id == 0)
             {
@@ -36,12 +36,20 @@ namespace FinalProject1.Controllers;
 
         // POST: api/BreakfastFoods
         [HttpPost]
-        public async Task<ActionResult<BreakfastFood>> PostBreakfastFood(BreakfastFood food)
+        public async Task<ActionResult<BreakfastFood>> PostBreakfastFood(string FoodName, bool isSweet, int calories, string originCountry, bool containsGluten)
         {
-            _context.BreakfastFoods.Add(food);
+            BreakfastFood breakfast = new BreakfastFood();
+            breakfast.FoodName = FoodName;
+            breakfast.IsSweet = isSweet;
+            breakfast.Calories = calories;
+            breakfast.OriginCountry = originCountry;
+            breakfast.ContainsGluten = containsGluten;
+
+
+            _context.BreakfastFoods.Add(breakfast);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetBreakfastFoods), new { id = food.Id }, food);
+            return CreatedAtAction(nameof(GetBreakfastFoods), new { id = breakfast.Id }, breakfast);
         }
 
         // PUT: api/BreakfastFoods/5
@@ -74,7 +82,7 @@ namespace FinalProject1.Controllers;
 
         // DELETE: api/BreakfastFoods/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBreakfastFood(int id)
+        public async Task<IActionResult> DeleteBreakfastFood(Int64 id)
         {
             var food = await _context.BreakfastFoods.FindAsync(id);
             if (food == null)
