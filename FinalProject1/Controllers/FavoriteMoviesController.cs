@@ -18,7 +18,7 @@ namespace FinalProject.Controllers;
 
         // GET: api/FavoriteMovies?id=2
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FavoriteMovie>>> GetFavoriteMovies([FromQuery] int? id)
+        public async Task<ActionResult<IEnumerable<FavoriteMovie>>> GetFavoriteMovies([FromQuery] Int64 id)
         {
             if (id == null || id == 0)
             {

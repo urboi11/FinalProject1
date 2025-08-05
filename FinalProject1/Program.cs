@@ -4,7 +4,9 @@ using FinalProject1.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 
-var connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTION_STRING");
+// var connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTION_STRING");
+
+var connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTION_STRING");
 
 // Add services to the container.
 

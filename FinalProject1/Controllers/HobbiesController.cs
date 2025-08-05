@@ -18,7 +18,7 @@ namespace FinalProject.Controllers
 
         // GET: api/Hobbies?id=1
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hobby>>> GetHobbies([FromQuery] int? id)
+        public async Task<ActionResult<IEnumerable<Hobby>>> GetHobbies([FromQuery] Int64 id)
         {
             if (id == null || id == 0)
             {
@@ -36,7 +36,7 @@ namespace FinalProject.Controllers
 
         // POST: api/Hobbies
         [HttpPost]
-        public async Task<ActionResult<Hobby>> PostHobby(Hobby hobby)
+        public async Task<ActionResult<Hobby>> PostHobby([FromQuery]Hobby hobby)
         {
             _context.Hobbies.Add(hobby);
             await _context.SaveChangesAsync();
@@ -46,7 +46,7 @@ namespace FinalProject.Controllers
 
         // PUT: api/Hobbies/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHobby(int id, Hobby hobby)
+        public async Task<IActionResult> PutHobby(Int64 id, Hobby hobby)
         {
             if (id != hobby.Id)
             {

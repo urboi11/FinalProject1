@@ -25,47 +25,32 @@ public class BestFriendController : ControllerBase
 
 
     [HttpGet("GetFriend")]
-    public ActionResult GetFriend(int? Id)
+    public ActionResult GetFriend(Int64 Id)
     {
 
         if (Id == null || Id == 0)
         {
-            bestFriend = new BestFriendResponse();
+            // bestFriend = new BestFriendResponse();
 
-            var response = _db.BestFriends
-                            .OrderByDescending(x => x.Id)
-                            .Take(5);
+            var response = _db.BestFriends.ToList();
 
-            foreach (var item in response)
-            {
-                bestFriend.Id = item.Id;
-                bestFriend.firstName = item.firstName;
-                bestFriend.lastName = item.lastName;
-                bestFriend.age = item.age;
-                bestFriend.pronouns = item.pronouns;
-            }
-
-            return Ok(bestFriend);
+            return Ok(response);
         }
         else
         {
-            var response = _db.BestFriends.Where(x => x.Id == Id).DefaultIfEmpty().ToArray();
+            var response = _db.BestFriends.Where(x => x.Id == Id).DefaultIfEmpty().ToList();
             if (response[0] == null)
             {
                 return NotFound(Id + " was not found.");
             }
-            return new JsonResult(response);
+            return Ok(response);
         }
 
     }
     [HttpPost("CreateFriend")]
-    public void CreateFriend(string firstName, string lastName, string age, string pronouns)
+    public void CreateFriend([FromQuery] BestFriend bestFriend)
     {
-        bestFriend = new BestFriendResponse();
-        bestFriend.firstName = firstName;
-        bestFriend.lastName = lastName;
-        bestFriend.age = age;
-        bestFriend.pronouns = pronouns;
+
         var response = _db.BestFriends.Add(bestFriend);
         _db.SaveChanges();
     }

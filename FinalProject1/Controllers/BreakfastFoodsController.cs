@@ -16,9 +16,9 @@ namespace FinalProject1.Controllers;
             _context = context;
         }
 
-        // GET: api/BreakfastFoods?id=2
+        // GET: api/GetBreakfastFoods?id=2
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BreakfastFood>>> GetBreakfastFoods([FromQuery] int? id)
+        public async Task<ActionResult<IEnumerable<BreakfastFood>>> GetBreakfastFoods(Int64 id)
         {
             if (id == null || id == 0)
             {
@@ -36,7 +36,7 @@ namespace FinalProject1.Controllers;
 
         // POST: api/BreakfastFoods
         [HttpPost]
-        public async Task<ActionResult<BreakfastFood>> PostBreakfastFood(BreakfastFood food)
+        public async Task<ActionResult<BreakfastFood>> PostBreakfastFood([FromQuery] BreakfastFood food)
         {
             _context.BreakfastFoods.Add(food);
             await _context.SaveChangesAsync();
