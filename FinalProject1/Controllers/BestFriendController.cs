@@ -56,7 +56,7 @@ public class BestFriendController : ControllerBase
     }
 
     [HttpDelete("DeleteFriend")]
-    public void DeleteFriend(int Id)
+    public void DeleteFriend(Int64 Id)
     {
         BestFriend response = _db.BestFriends.Find(Id);
         _db.BestFriends.Remove(response);
@@ -64,7 +64,7 @@ public class BestFriendController : ControllerBase
     }
 
     [HttpPut("UpdateFriend")]
-    public ActionResult UpdateFriend(int Id, string firstName, string lastName, string age, string pronouns)
+    public ActionResult UpdateFriend(Int64 Id, string firstName, string lastName, string age, string pronouns)
     {
         BestFriend response = _db.BestFriends.Find(Id);
         if (response == null)
