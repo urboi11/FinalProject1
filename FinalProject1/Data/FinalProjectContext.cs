@@ -15,6 +15,6 @@ public class FinalProjectContext : DbContext
     public DbSet<BestFriend> BestFriends  => Set<BestFriend>();
     public DbSet<BreakfastFood> BreakfastFoods => Set<BreakfastFood>();
     public DbSet<FavoriteMovie> FavoriteMovies => Set<FavoriteMovie>();
-
+    public DbSet<TeamFavorite> TeamFavorite => Set<TeamFavorite>();
     public DbSet<Hobby> Hobbies => Set<Hobby>();
 }
