@@ -47,12 +47,19 @@ public class TeamsController : ControllerBase
 
     }
     [HttpPost("CreateTeamMember")]
-    public async Task<ActionResult<Team>> CreateTeamMember([FromQuery] Team team)
+    public async Task<ActionResult<TeamsResponse>> CreateTeamMember([FromQuery]TeamsResponse team)
     {
-        _db.Teams.Add(team);
+        Team team1 = new Team
+        {
+            TeamMember = team.TeamName,
+            BirthDate = team.BirthDate,
+            CollegeProgram = team.CollegeProgram, 
+            Year = team.Year
+        };
+        _db.Teams.Add(team1);
         await _db.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetTeamMembers), new { id = team.Id }, team);
+        return CreatedAtAction(nameof(GetTeamMembers), team);
     }
 
     [HttpDelete("DeleteTeamMember")]

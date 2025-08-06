@@ -1,6 +1,8 @@
+using FinalProject1.DTO;
+
 namespace FinalProject1.Models;
 
-public class Team
+public class Team 
 {
     public Int64 Id { get; set; }
 

@@ -1,14 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FinalProject1.Data;      // Correct namespace for AppDbContext
-using FinalProject1.Models;    // Correct namespace for FavoriteMovie
+using FinalProject1.Models;
+using FinalProject1.DTO;    // Correct namespace for FavoriteMovie
 
 namespace FinalProject.Controllers;
 
     [Route("api/[controller]")]
     [ApiController]
     public class FavoriteMoviesController : ControllerBase
-    {
+    {   
+        private readonly ILogger<FavoriteMoviesController> 
         private readonly FinalProjectContext _context;
 
         public FavoriteMoviesController(FinalProjectContext context)
@@ -18,7 +20,7 @@ namespace FinalProject.Controllers;
 
         // GET: api/FavoriteMovies?id=2
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FavoriteMovie>>> GetFavoriteMovies([FromQuery] Int64 id)
+        public async Task<ActionResult<IEnumerable<FavoriteMovie>>> GetFavoriteMovies([FromQuery] int id)
         {
             if (id == null || id == 0)
             {
@@ -36,41 +38,36 @@ namespace FinalProject.Controllers;
 
         // POST: api/FavoriteMovies
         [HttpPost]
-        public async Task<ActionResult<FavoriteMovie>> PostFavoriteMovie(FavoriteMovie movie)
+        public async Task<ActionResult<FavoriteMovie>> PostFavoriteMovie([FromQuery] FavoriteMovieResponse movieResponse)
         {
+            FavoriteMovie movie = new FavoriteMovie
+            {
+                Title = movieResponse.Title,
+                Genre = movieResponse.Genre,
+                ReleaseYear = movieResponse.ReleaseYear,
+                Director = movieResponse.Director,
+                LeadActor = movieResponse.LeadActor
+            };
+            
             _context.FavoriteMovies.Add(movie);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetFavoriteMovies), new { id = movie.Id }, movie);
         }
 
-        // PUT: api/FavoriteMovies/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFavoriteMovie(int id, FavoriteMovie movie)
+    // PUT: api/FavoriteMovies/5
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutFavoriteMovie(FavoriteMovie movie)
+    {
+        try
         {
-            if (id != movie.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(movie).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.FavoriteMovies.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }
-
-                throw;
-            }
-
-            return NoContent();
         }
+        catch (Exception e)
+        {
+            
+        }    
+    }
 
         // DELETE: api/FavoriteMovies/5
         [HttpDelete("{id}")]
