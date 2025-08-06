@@ -9,16 +9,18 @@ namespace FinalProject1.Controllers;
     [ApiController]
     public class BreakfastFoodsController : ControllerBase
     {
+        private readonly ILogger<BreakfastFoodsController> _logger;
         private readonly FinalProjectContext _context;
 
-        public BreakfastFoodsController(FinalProjectContext context)
+        public BreakfastFoodsController(ILogger<BreakfastFoodsController> logger, FinalProjectContext context)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/GetBreakfastFoods?id=2
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BreakfastFood>>> GetBreakfastFoods(Int64 id)
+        public async Task<ActionResult<IEnumerable<BreakfastFood>>> GetBreakfastFoods(int id)
         {
             if (id == null || id == 0)
             {
@@ -52,37 +54,29 @@ namespace FinalProject1.Controllers;
             return CreatedAtAction(nameof(GetBreakfastFoods), new { id = breakfast.Id }, breakfast);
         }
 
-        // PUT: api/BreakfastFoods/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBreakfastFood(int id, BreakfastFood food)
+    // PUT: api/BreakfastFoods/5
+    [HttpPut]
+    public async Task<IActionResult> PutBreakfastFood([FromQuery] BreakfastFood food)
+    {
+        try
         {
-            if (id != food.Id)
-            {
-                return BadRequest();
-            }
+            _context.BreakfastFoods.Update(food);
+            await _context.SaveChangesAsync();
+            return Ok();
 
-            _context.Entry(food).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.BreakfastFoods.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }
-
-                throw;
-            }
-
-            return NoContent();
         }
+        catch (Exception E)
+        {
+            _logger.LogError("Error: " + E);
+            return StatusCode(500);
+        }    
+    }
 
-        // DELETE: api/BreakfastFoods/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBreakfastFood(Int64 id)
+    // DELETE: api/BreakfastFoods/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteBreakfastFood(int id)
+    {
+        try
         {
             var food = await _context.BreakfastFoods.FindAsync(id);
             if (food == null)
@@ -94,5 +88,12 @@ namespace FinalProject1.Controllers;
             await _context.SaveChangesAsync();
 
             return NoContent();
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Error: " + e);
+            return StatusCode(500);
+        }
         }
     }

@@ -9,12 +9,13 @@ namespace FinalProject.Controllers;
     [Route("api/[controller]")]
     [ApiController]
     public class FavoriteMoviesController : ControllerBase
-    {   
-        private readonly ILogger<FavoriteMoviesController> 
+    {
+        private readonly ILogger<FavoriteMoviesController> _logger;
         private readonly FinalProjectContext _context;
 
-        public FavoriteMoviesController(FinalProjectContext context)
+        public FavoriteMoviesController(ILogger<FavoriteMoviesController> logger, FinalProjectContext context)
         {
+            _logger = logger;
             _context = context;
         }
 
@@ -56,22 +57,25 @@ namespace FinalProject.Controllers;
         }
 
     // PUT: api/FavoriteMovies/5
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutFavoriteMovie(FavoriteMovie movie)
+    [HttpPut]
+    public async Task<IActionResult> PutFavoriteMovie([FromQuery] FavoriteMovie movie)
     {
         try
         {
-
+            _context.FavoriteMovies.Update(movie);
+            _context.SaveChanges();
+            return Ok();
         }
         catch (Exception e)
         {
-            
+            _logger.LogError("Error: " + e);
+            return StatusCode(500);
         }    
     }
 
         // DELETE: api/FavoriteMovies/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFavoriteMovie(Int64 id)
+        public async Task<IActionResult> DeleteFavoriteMovie(int id)
         {
             var movie = await _context.FavoriteMovies.FindAsync(id);
             if (movie == null)
