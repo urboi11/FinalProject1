@@ -2,7 +2,7 @@
 {
     public class TeamFavorite
     {
-        public Int64 Id { get; set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
         public string? FavColor { get; set; }
         public string? FavAnimal { get; set; }

@@ -42,12 +42,16 @@ namespace FinalProject1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(TeamFavorite teamFavorite)
+        public IActionResult Create([FromQuery] TeamFavoriteResponse teamFavorites)
         {
-            if (teamFavorite == null)
+            TeamFavorite teamFavorite = new TeamFavorite
             {
-                return NotFound("TeamFavorite not found.");
-            }
+                Name = teamFavorites.Name,
+                FavColor = teamFavorites.FavColor,
+                FavAnimal = teamFavorites.FavAnimal,
+                FavNumber = teamFavorites.FavNumber, 
+                FavSeason = teamFavorites.FavSeason
+            };
             _db.TeamFavorite.Add(teamFavorite);
             _db.SaveChanges();
             return CreatedAtAction(nameof(Get), new { id = teamFavorite.Id }, teamFavorite);

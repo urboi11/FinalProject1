@@ -48,10 +48,18 @@ public class BestFriendController : ControllerBase
 
     }
     [HttpPost("CreateFriend")]
-    public void CreateFriend([FromQuery] BestFriend bestFriend)
+    public void CreateFriend([FromQuery] BestFriendResponse bestFriend)
     {
 
-        var response = _db.BestFriends.Add(bestFriend);
+        BestFriend bestFriend1 = new BestFriend
+        {
+            firstName = bestFriend.FirstName,
+            lastName = bestFriend.LastName,
+            age = bestFriend.Age,
+            pronouns = bestFriend.Pronouns
+        };
+        var response = _db.BestFriends.Add(bestFriend1);
+
         _db.SaveChanges();
     }
 
